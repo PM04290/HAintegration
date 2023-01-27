@@ -318,6 +318,9 @@ public:
      */
     void processMessage(const char* topic, const uint8_t* payload, uint16_t length);
 
+
+	boolean setBufferSize(uint16_t size);
+
 #ifdef ARDUINOHA_TEST
     inline uint8_t getDevicesTypesNb() const
         { return _devicesTypesNb; }

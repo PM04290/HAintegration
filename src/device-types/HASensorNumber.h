@@ -83,6 +83,14 @@ public:
     inline const HANumeric& getCurrentValue() const
         { return _currentValue; }
 
+    /**
+     * Sets the precision of the number (number of digits in the decimal part).
+     *
+     * @param precision The precision to use.
+     */
+    inline void setPrecision(const uint8_t precision)
+        { _precision = (NumberPrecision)precision; }
+
 protected:
     virtual void onMqttConnected() override;
 
@@ -96,7 +104,7 @@ private:
     bool publishValue(const HANumeric& value);
 
     /// The precision of the sensor. By default it's `HASensorNumber::PrecisionP0`.
-    const NumberPrecision _precision;
+    NumberPrecision _precision;
 
     /// The current value of the sensor. By default the value is not set.
     HANumeric _currentValue;

@@ -275,6 +275,11 @@ void HAMqtt::processMessage(const char* topic, const uint8_t* payload, uint16_t 
     }
 }
 
+boolean HAMqtt::setBufferSize(uint16_t size)
+{
+	return _mqtt->setBufferSize(size);
+}
+
 void HAMqtt::connectToServer()
 {
     if (_lastConnectionAttemptAt > 0 && (millis() - _lastConnectionAttemptAt) < ReconnectInterval) {
