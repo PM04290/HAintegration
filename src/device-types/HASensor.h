@@ -2,6 +2,7 @@
 #define AHA_HASENSOR_H
 
 #include "HABaseDeviceType.h"
+#include "../utils/HANumeric.h"
 
 #ifndef EX_ARDUINOHA_SENSOR
 
@@ -67,6 +68,22 @@ public:
     inline void setUnitOfMeasurement(const char* unitOfMeasurement)
         { _unitOfMeasurement = unitOfMeasurement; }
 
+/**
+     * Defines the expire time of the sensor, if any, in sec.
+     *
+     * @param units For example: 1
+     */
+    inline void setExpireAfter(uint16_t expireAfter)
+        { _expire_after = HANumeric(expireAfter, 0); }
+
+/**
+     * Defines the state class of the sensor, if any.
+     *
+     * @param units For example: total_increasing
+     */
+    inline void setStateClass(const char* stateClass)
+        { _stateClass = stateClass; }
+
 protected:
     virtual void buildSerializer() override final;
     virtual void onMqttConnected() override;
@@ -83,6 +100,12 @@ private:
 
     /// The unit of measurement for the sensor. It can be nullptr.
     const char* _unitOfMeasurement;
+	
+	/// Expire After time
+	HANumeric _expire_after;
+
+	/// The State Class. It can be nullptr.
+    const char* _stateClass;
 };
 
 #endif

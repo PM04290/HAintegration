@@ -166,10 +166,9 @@ bool HAMqtt::disconnect()
 
     ARDUINOHA_DEBUG_PRINTLN(F("AHA: disconnecting"))
 
-    _initialized = false;
+    //_initialized = false;
     _lastConnectionAttemptAt = 0;
     _mqtt->disconnect();
-
     return true;
 }
 

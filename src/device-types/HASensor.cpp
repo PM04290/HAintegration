@@ -9,7 +9,9 @@ HASensor::HASensor(const char* uniqueId) :
     _deviceClass(nullptr),
     _forceUpdate(false),
     _icon(nullptr),
-    _unitOfMeasurement(nullptr)
+    _unitOfMeasurement(nullptr),
+	_expire_after(),
+	_stateClass(nullptr)
 {
 
 }
@@ -25,22 +27,21 @@ void HASensor::buildSerializer()
         return;
     }
 
-    _serializer = new HASerializer(this, 9); // 9 - max properties nb
+    _serializer = new HASerializer(this, 11); // 11 - max properties nb
     _serializer->set(AHATOFSTR(HANameProperty), _name);
     _serializer->set(AHATOFSTR(HAUniqueIdProperty), _uniqueId);
     _serializer->set(AHATOFSTR(HADeviceClassProperty), _deviceClass);
     _serializer->set(AHATOFSTR(HAIconProperty), _icon);
     _serializer->set(AHATOFSTR(HAUnitOfMeasurementProperty), _unitOfMeasurement);
-
+    // optional property
+	if (_expire_after.isSet()) {
+		_serializer->set(AHATOFSTR(HAExpireAfterProperty), &_expire_after, HASerializer::NumberPropertyType);
+	}
     // optional property
     if (_forceUpdate) {
-        _serializer->set(
-            AHATOFSTR(HAForceUpdateProperty),
-            &_forceUpdate,
-            HASerializer::BoolPropertyType
-        );
+        _serializer->set(AHATOFSTR(HAForceUpdateProperty), &_forceUpdate, HASerializer::BoolPropertyType);
     }
-
+    _serializer->set(AHATOFSTR(HAStateClassProperty), _stateClass);
     _serializer->set(HASerializer::WithDevice);
     _serializer->set(HASerializer::WithAvailability);
     _serializer->topic(AHATOFSTR(HAStateTopic));
