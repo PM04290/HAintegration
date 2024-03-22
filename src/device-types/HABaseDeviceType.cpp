@@ -12,7 +12,8 @@ HABaseDeviceType::HABaseDeviceType(
     _uniqueId(uniqueId),
     _name(nullptr),
     _serializer(nullptr),
-    _availability(AvailabilityDefault)
+    _availability(AvailabilityDefault),
+    _category(CategoryAuto)
 {
     if (mqtt()) {
         mqtt()->addDeviceType(this);
@@ -23,6 +24,20 @@ void HABaseDeviceType::setAvailability(bool online)
 {
     _availability = (online ? AvailabilityOnline : AvailabilityOffline);
     publishAvailability();
+}
+
+const __FlashStringHelper* HABaseDeviceType::getCategoryProperty() const
+{
+    switch (_category) {
+    case CategoryConfig:
+        return AHATOFSTR(HACategoryConfig);
+
+    case CategoryDiagnostic:
+        return AHATOFSTR(HACategoryDiagnostic);
+
+    default:
+        return nullptr;
+    }
 }
 
 HAMqtt* HABaseDeviceType::mqtt()
@@ -90,6 +105,7 @@ void HABaseDeviceType::publishConfig()
 
     if (topicLength > 0 && dataLength > 0) {
         char topic[topicLength];
+
         HASerializer::generateConfigTopic(
             topic,
             componentName(),

@@ -10,11 +10,7 @@
 #define HAMQTT_MESSAGE_CALLBACK(name) void (*name)(const char* topic, const uint8_t* payload, uint16_t length)
 #define HAMQTT_DEFAULT_PORT 1883
 
-#ifdef ARDUINOHA_TEST
-class PubSubClientMock;
-#else
 class PubSubClient;
-#endif
 
 class HADevice;
 class HABaseDeviceType;
@@ -37,13 +33,6 @@ public:
     inline static HAMqtt* instance()
         { return _instance; }
 
-#ifdef ARDUINOHA_TEST
-    explicit HAMqtt(
-        PubSubClientMock* pubSub,
-        HADevice& device,
-        const uint8_t maxDevicesTypesNb = 6
-    );
-#else
     /**
      * Creates a new instance of the HAMqtt class.
      * Please note that only one instance of the class can be initialized at the same time.
@@ -57,7 +46,6 @@ public:
         HADevice& device,
         const uint8_t maxDevicesTypesNb = 6
     );
-#endif
 
     /**
      * Removes singleton of the HAMqtt class.
@@ -321,14 +309,6 @@ public:
 
 	boolean setBufferSize(uint16_t size);
 
-#ifdef ARDUINOHA_TEST
-    inline uint8_t getDevicesTypesNb() const
-        { return _devicesTypesNb; }
-
-    inline HABaseDeviceType** getDevicesTypes() const
-        { return _devicesTypes; }
-#endif
-
 private:
     /// Interval between MQTT reconnects (milliseconds).
     static const uint16_t ReconnectInterval = 5000;
@@ -347,12 +327,8 @@ private:
      */
     void onConnectedLogic();
 
-#ifdef ARDUINOHA_TEST
-    PubSubClientMock* _mqtt;
-#else
     /// Instance of the PubSubClient class. It's initialized in the constructor.
     PubSubClient* _mqtt;
-#endif
 
     /// Instance of the HADevice passed to the constructor.
     const HADevice& _device;

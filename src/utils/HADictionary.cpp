@@ -73,6 +73,7 @@ const char HATemperatureCommandTemplateProperty[] PROGMEM = {"temperature_comman
 const char HAPayloadOnProperty[] PROGMEM = {"payload_on"};
 const char HAExpireAfterProperty[] PROGMEM = {"expire_after"};
 const char HAStateClassProperty[] PROGMEM = {"state_class"};
+const char HAEntityCategoryProperty[] PROGMEM = {"entity_category"};
 
 // topics
 const char HAConfigTopic[] PROGMEM = {"config"};
@@ -118,6 +119,8 @@ const char HANotHome[] PROGMEM = {"not_home"};
 const char HATrigger[] PROGMEM = {"trigger"};
 const char HAModeBox[] PROGMEM = {"box"};
 const char HAModeSlider[] PROGMEM = {"slider"};
+const char HACategoryConfig[] PROGMEM = {"config"};
+const char HACategoryDiagnostic[] PROGMEM = {"diagnostic"};
 
 // covers
 const char HAClosedState[] PROGMEM = {"closed"};

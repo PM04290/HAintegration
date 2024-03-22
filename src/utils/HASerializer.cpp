@@ -399,7 +399,6 @@ bool HASerializer::flushEntry(const SerializerEntry* entry) const
         mqtt->writePayload(AHATOFSTR(HASerializerJsonPropertyPrefix));
         mqtt->writePayload(entry->property);
         mqtt->writePayload(AHATOFSTR(HASerializerJsonPropertySuffix));
-
         return flushEntryValue(entry);
     }
 
@@ -423,7 +422,6 @@ bool HASerializer::flushEntryValue(const SerializerEntry* entry) const
     case ProgmemPropertyValue: {
         const char* value = static_cast<const char*>(entry->value);
         mqtt->writePayload(AHATOFSTR(HASerializerJsonEscapeChar));
-
         if (entry->subtype == ConstCharPropertyValue) {
             mqtt->writePayload(value, strlen(value));
         } else {

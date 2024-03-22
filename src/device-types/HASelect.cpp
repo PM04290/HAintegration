@@ -93,6 +93,9 @@ void HASelect::buildSerializer()
 
     _serializer = new HASerializer(this, 10); // 10 - max properties nb
     _serializer->set(AHATOFSTR(HANameProperty), _name);
+	if (_category != EntityCategory::CategoryAuto) {
+		_serializer->set(AHATOFSTR(HAEntityCategoryProperty), getCategoryProperty(), HASerializer::ProgmemPropertyValue);
+	}
     _serializer->set(AHATOFSTR(HAUniqueIdProperty), _uniqueId);
     _serializer->set(AHATOFSTR(HAIconProperty), _icon);
     _serializer->set(

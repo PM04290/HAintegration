@@ -48,6 +48,9 @@ void HANumber::buildSerializer()
     _serializer->set(AHATOFSTR(HAUniqueIdProperty), _uniqueId);
     _serializer->set(AHATOFSTR(HADeviceClassProperty), _class);
     _serializer->set(AHATOFSTR(HAIconProperty), _icon);
+	if (_category != EntityCategory::CategoryAuto) {
+		_serializer->set(AHATOFSTR(HAEntityCategoryProperty), getCategoryProperty(), HASerializer::ProgmemPropertyValue);
+	}
     _serializer->set(AHATOFSTR(HAUnitOfMeasurementProperty), _unitOfMeasurement);
     _serializer->set(
         AHATOFSTR(HAModeProperty),

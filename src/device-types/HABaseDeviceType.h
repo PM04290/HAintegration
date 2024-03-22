@@ -24,6 +24,13 @@ public:
         PrecisionP3
     };
 
+    /// Represents entity category.
+    enum EntityCategory {
+        CategoryAuto = 0,
+        CategoryConfig,
+        CategoryDiagnostic
+    };
+
     /**
      * Creates a new device type instance and registers it in the HAMqtt class.
      *
@@ -77,6 +84,20 @@ public:
      */
     inline const char* getName() const
         { return _name; }
+
+    /**
+     * Sets entity category.
+     * By default it's `Auto`.
+     *
+     * @param EntityCategory to set.
+     */
+    inline void setCategory(uint8_t category)
+        { _category = (EntityCategory)category; }
+
+	/**
+     * Returns progmem string representing category
+     */
+    const __FlashStringHelper* getCategoryProperty() const;
 
     /**
      * Sets availability of the device type.
@@ -209,7 +230,9 @@ protected:
     /// The name that was set using setName method. It can be nullptr.
     const char* _name;
 
-    /// HASerializer that belongs to this device type. It can be nullptr.
+	EntityCategory _category;
+
+/// HASerializer that belongs to this device type. It can be nullptr.
     HASerializer* _serializer;
 
 private:

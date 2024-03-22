@@ -27,11 +27,14 @@ void HASensor::buildSerializer()
         return;
     }
 
-    _serializer = new HASerializer(this, 11); // 11 - max properties nb
+    _serializer = new HASerializer(this, 12); // 12 - max properties nb
     _serializer->set(AHATOFSTR(HANameProperty), _name);
     _serializer->set(AHATOFSTR(HAUniqueIdProperty), _uniqueId);
     _serializer->set(AHATOFSTR(HADeviceClassProperty), _deviceClass);
     _serializer->set(AHATOFSTR(HAIconProperty), _icon);
+	if (_category != EntityCategory::CategoryAuto) {
+		_serializer->set(AHATOFSTR(HAEntityCategoryProperty), getCategoryProperty(), HASerializer::ProgmemPropertyValue);
+	}
     _serializer->set(AHATOFSTR(HAUnitOfMeasurementProperty), _unitOfMeasurement);
     // optional property
 	if (_expire_after.isSet()) {

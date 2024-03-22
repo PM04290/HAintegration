@@ -227,7 +227,7 @@ private:
      *  Calculates the size of the entry of type `TopicEntryType`.
      */
     uint16_t calculateTopicEntrySize(const SerializerEntry* entry) const;
-
+	
     /**
      * Calculates the size of the entry of type `FlagEntryType`.
      */

@@ -73,6 +73,7 @@ extern const char HATemperatureCommandTemplateProperty[];
 extern const char HAPayloadOnProperty[];
 extern const char HAExpireAfterProperty[];
 extern const char HAStateClassProperty[];
+extern const char HAEntityCategoryProperty[];
 
 // topics
 extern const char HAConfigTopic[];
@@ -118,6 +119,8 @@ extern const char HANotHome[];
 extern const char HATrigger[];
 extern const char HAModeBox[];
 extern const char HAModeSlider[];
+extern const char HACategoryConfig[];
+extern const char HACategoryDiagnostic[];
 
 // covers
 extern const char HAClosedState[];

@@ -1,31 +1,9 @@
 #include "HAMqtt.h"
-
-#ifndef ARDUINOHA_TEST
 #include <PubSubClient.h>
-#endif
 
 #include "HAIDevice.h"
 #include "device-types/HABaseDeviceType.h"
-#include "mocks/PubSubClientMock.h"
 
-#define HAMQTT_INIT \
-    _device(device), \
-    _messageCallback(nullptr), \
-    _disconnectedCallback(nullptr), \
-    _connectedCallback(nullptr), \
-    _MQTTstate(MQTT_DISCONNECTED), \
-    _initialized(false), \
-    _discoveryPrefix(DefaultDiscoveryPrefix), \
-    _dataPrefix(DefaultDataPrefix), \
-    _username(nullptr), \
-    _password(nullptr), \
-    _lastConnectionAttemptAt(0), \
-    _devicesTypesNb(0), \
-    _maxDevicesTypesNb(maxDevicesTypesNb), \
-    _devicesTypes(new HABaseDeviceType*[maxDevicesTypesNb]), \
-    _lastWillTopic(nullptr), \
-    _lastWillMessage(nullptr), \
-    _lastWillRetain(false)
 
 static const char* DefaultDiscoveryPrefix = "homeassistant";
 static const char* DefaultDataPrefix = "aha";
@@ -41,29 +19,32 @@ void onMessageReceived(char* topic, uint8_t* payload, unsigned int length)
     HAMqtt::instance()->processMessage(topic, payload, static_cast<uint16_t>(length));
 }
 
-#ifdef ARDUINOHA_TEST
-HAMqtt::HAMqtt(
-    PubSubClientMock* pubSub,
-    HADevice& device,
-    uint8_t maxDevicesTypesNb
-) :
-    _mqtt(pubSub),
-    HAMQTT_INIT
-{
-    _instance = this;
-}
-#else
 HAMqtt::HAMqtt(
     Client& netClient,
     HADevice& device,
     uint8_t maxDevicesTypesNb
 ) :
     _mqtt(new PubSubClient(netClient)),
-    HAMQTT_INIT
+    _device(device),
+    _messageCallback(nullptr),
+    _connectedCallback(nullptr),
+    _disconnectedCallback(nullptr),
+    _initialized(false),
+    _discoveryPrefix(DefaultDiscoveryPrefix),
+    _dataPrefix(DefaultDataPrefix),
+    _username(nullptr),
+    _password(nullptr),
+    _lastConnectionAttemptAt(0),
+    _devicesTypesNb(0),
+	_maxDevicesTypesNb(maxDevicesTypesNb),
+    _devicesTypes(new HABaseDeviceType*[maxDevicesTypesNb]),
+    _lastWillTopic(nullptr),
+    _lastWillMessage(nullptr),
+    _lastWillRetain(false),
+    _MQTTstate(MQTT_DISCONNECTED)
 {
     _instance = this;
 }
-#endif
 
 HAMqtt::~HAMqtt()
 {
